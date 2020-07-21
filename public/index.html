@@ -17,7 +17,7 @@
         function getResults() {
             $("#results").empty();
             $.getJSON("/rss", function (data) {
-                $("#results").prepend(data.output[0] + "<br>" + data.output[1]+ "<br>" + data.output[2]+ "<br>" + data.output[3]+ "<br>" + data.output[4]);
+                $("#results").prepend(data.output[0].title + "<br>" + data.output[1].title);
             });
         }
        getResults();

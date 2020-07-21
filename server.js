@@ -10,11 +10,22 @@ app.use(express.static("public"));
 let Parser = require('rss-parser');
 let parser = new Parser();
 
-let grabData = async (day)=> {
+let grabData = async (day,service)=> {
     let output = [];
-    let feed = await parser.parseURL(`http://apps.ci.minneapolis.mn.us/CalendarApp/Ex_CalendarRSS.aspx?linkurl=http://www.ci.minneapolis.mn.us/government/calendars.asp&datebook=Garbage%20and%20Recycling%20` + day + `%20Route%20CD&type=rss`);
-    for (let i = 0; i < 5; i++) {
-      output.push(feed.items[i].title)
+    let urlRequested;
+    if(service === "Recycling"){
+       urlRequested = `http://apps.ci.minneapolis.mn.us/CalendarApp/Ex_CalendarRSS.aspx?linkurl=http://www.ci.minneapolis.mn.us/government/calendars.asp&datebook=Garbage%20and%20Recycling%20` + day + `%20Route%20CD&calendar=Recycling%20Calendar%20(Wed%20CD)&type=rss`;
+    }
+    else{
+       urlRequested = `http://apps.ci.minneapolis.mn.us/CalendarApp/Ex_CalendarRSS.aspx?linkurl=http://www.ci.minneapolis.mn.us/government/calendars.asp&datebook=Garbage%20and%20Recycling%20` + day +`%20Route%20CD&calendar=Garbage%20Calendar%20(`+ day + `)&type=rss`; 
+    }
+   
+    let feed = await parser.parseURL(urlRequested);
+    console.log(urlRequested);
+       
+    
+    for (let i = 0; i < feed.items.length; i++) {
+        output.push(feed.items[i]);
     }
     let data = {output};
     console.log(data);
@@ -25,9 +36,9 @@ let grabData = async (day)=> {
  
 
 
-app.get("/rss", async (req, res) => {
+app.get("/rss/:day/:service", async (req, res) => {
   
-res.json(await grabData("Tuesday"))
+res.json(await grabData(req.params.day, req.params.service))
 
 });
 

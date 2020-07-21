@@ -1,13 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Binfo</title>
 </head>
+
 <body>
-<div id="results">default</div>
-<script src="moment.js" async></script>    
-<script src="binDay.js" async></script>    
+    <div id="results">default</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="moment.js" async></script>
+    <script>
+
+        function getResults() {
+            $("#results").empty();
+            $.getJSON("/rss", function (data) {
+                $("#results").prepend(data.output[0] + "<br>" + data.output[1]+ "<br>" + data.output[2]+ "<br>" + data.output[3]+ "<br>" + data.output[4]);
+            });
+        }
+       getResults();
+
+
+    </script>
 </body>
+
 </html>

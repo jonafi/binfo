@@ -19,16 +19,15 @@ let grabData = async (day,service)=> {
     else{
        urlRequested = `http://apps.ci.minneapolis.mn.us/CalendarApp/Ex_CalendarRSS.aspx?linkurl=http://www.ci.minneapolis.mn.us/government/calendars.asp&datebook=Garbage%20and%20Recycling%20` + day +`%20Route%20CD&calendar=Garbage%20Calendar%20(`+ day + `)&type=rss`; 
     }
-   
     let feed = await parser.parseURL(urlRequested);
-    console.log(urlRequested);
+    //console.log(urlRequested);
        
     
     for (let i = 0; i < feed.items.length; i++) {
         output.push(feed.items[i]);
     }
     let data = {output};
-    console.log(data);
+    //console.log(data);
     return data; 
 
 
